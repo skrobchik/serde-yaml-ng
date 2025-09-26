@@ -219,7 +219,7 @@ where
     /// # use serde_yaml_ng::Value;
     /// #
     /// # fn main() -> serde_yaml_ng::Result<()> {
-    /// let data: serde_yaml_ng::Value = serde_yaml_ng::from_str(r#"{ x: { y: [z, zz] } }"#)?;
+    /// let data: serde_yaml_ng::Value = serde_yaml_ng::from_str(r#"{ x: { 'y': [z, zz] } }"#)?;
     ///
     /// assert_eq!(data["x"]["y"], serde_yaml_ng::from_str::<Value>(r#"["z", "zz"]"#).unwrap());
     /// assert_eq!(data["x"]["y"][0], serde_yaml_ng::from_str::<Value>(r#""z""#).unwrap());

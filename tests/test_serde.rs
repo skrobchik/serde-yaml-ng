@@ -195,7 +195,7 @@ fn test_map() {
     thing.insert("y".to_owned(), 2);
     let yaml = indoc! {"
         x: 1
-        y: 2
+        'y': 2
     "};
     test_serde(&thing, yaml);
 }
@@ -238,7 +238,7 @@ fn test_basic_struct() {
     };
     let yaml = indoc! {r#"
         x: -4
-        y: "hi\tquoted"
+        'y': "hi\tquoted"
         z: true
     "#};
     test_serde(&thing, yaml);

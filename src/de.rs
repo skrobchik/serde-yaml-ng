@@ -925,10 +925,16 @@ fn parse_null(scalar: &[u8]) -> Option<()> {
     }
 }
 
+/// Parse a boolean according to the YAML 1.1 specification.
+/// https://yaml.org/type/bool.html
 fn parse_bool(scalar: &str) -> Option<bool> {
     match scalar {
-        "true" | "True" | "TRUE" => Some(true),
-        "false" | "False" | "FALSE" => Some(false),
+        "y" | "Y" | "yes" | "Yes" | "YES" | "true" | "True" | "TRUE" | "on" | "On" | "ON" => {
+            Some(true)
+        }
+        "n" | "N" | "no" | "No" | "NO" | "false" | "False" | "FALSE" | "off" | "Off" | "OFF" => {
+            Some(false)
+        }
         _ => None,
     }
 }

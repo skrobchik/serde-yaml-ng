@@ -233,7 +233,7 @@ fn test_enum_representations() {
         Enum::Number(0.0),
     ];
 
-    test_de(yaml, &expected);
+    test_de_no_value(yaml, &expected);
 
     let yaml = indoc! {"
         - !String
@@ -451,6 +451,42 @@ fn test_numbers() {
 }
 
 #[test]
+fn test_booleans() {
+    // YAML 1.1 booleans: https://yaml.org/type/bool.html
+    let cases = [
+        ("y", true),
+        ("Y", true),
+        ("yes", true),
+        ("Yes", true),
+        ("YES", true),
+        ("true", true),
+        ("True", true),
+        ("TRUE", true),
+        ("on", true),
+        ("On", true),
+        ("ON", true),
+        ("n", false),
+        ("N", false),
+        ("no", false),
+        ("No", false),
+        ("NO", false),
+        ("false", false),
+        ("False", false),
+        ("FALSE", false),
+        ("off", false),
+        ("Off", false),
+        ("OFF", false),
+    ];
+    for (yaml, expected) in cases {
+        let value = serde_yaml_ng::from_str::<Value>(yaml).unwrap();
+        match value {
+            Value::Bool(bool) => assert_eq!(bool, expected),
+            _ => panic!("expected boolean, input={:?}, result={:?}", yaml, value),
+        };
+    }
+}
+
+#[test]
 fn test_nan() {
     // There is no negative NaN in YAML.
     assert!(serde_yaml_ng::from_str::<f32>(".nan")
@@ -637,22 +673,6 @@ fn test_tag_resolution() {
         - false
         - False
         - FALSE
-        - y
-        - Y
-        - yes
-        - Yes
-        - YES
-        - n
-        - N
-        - no
-        - No
-        - NO
-        - on
-        - On
-        - ON
-        - off
-        - Off
-        - OFF
     "};
 
     let expected = vec![
@@ -667,22 +687,6 @@ fn test_tag_resolution() {
         Value::Bool(false),
         Value::Bool(false),
         Value::Bool(false),
-        Value::String("y".to_owned()),
-        Value::String("Y".to_owned()),
-        Value::String("yes".to_owned()),
-        Value::String("Yes".to_owned()),
-        Value::String("YES".to_owned()),
-        Value::String("n".to_owned()),
-        Value::String("N".to_owned()),
-        Value::String("no".to_owned()),
-        Value::String("No".to_owned()),
-        Value::String("NO".to_owned()),
-        Value::String("on".to_owned()),
-        Value::String("On".to_owned()),
-        Value::String("ON".to_owned()),
-        Value::String("off".to_owned()),
-        Value::String("Off".to_owned()),
-        Value::String("OFF".to_owned()),
     ];
 
     test_de(yaml, &expected);

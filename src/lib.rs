@@ -27,7 +27,7 @@
 //!
 //!     // Serialize it to a YAML string.
 //!     let yaml = serde_yaml_ng::to_string(&map)?;
-//!     assert_eq!(yaml, "x: 1.0\ny: 2.0\n");
+//!     assert_eq!(yaml, "x: 1.0\n'y': 2.0\n");
 //!
 //!     // Deserialize it back to a Rust type.
 //!     let deserialized_map: BTreeMap<String, f64> = serde_yaml_ng::from_str(&yaml)?;
@@ -57,7 +57,7 @@
 //!     let point = Point { x: 1.0, y: 2.0 };
 //!
 //!     let yaml = serde_yaml_ng::to_string(&point)?;
-//!     assert_eq!(yaml, "x: 1.0\ny: 2.0\n");
+//!     assert_eq!(yaml, "x: 1.0\n'y': 2.0\n");
 //!
 //!     let deserialized_point: Point = serde_yaml_ng::from_str(&yaml)?;
 //!     assert_eq!(point, deserialized_point);
